@@ -1,0 +1,62 @@
+import random
+
+
+def hint(word):
+    return ''.join(['-' if letter not in guessed_letters else letter for letter in word])
+
+print('H A N G M A N')
+print('Type "play" to play the game, "exit" to quit:')
+play = ""
+play = input()
+played = 0
+random.seed()
+secret_word = random.choice(['python', 'java', 'kotlin', 'javascript'])
+guessed_letters = set()
+number_errors_made = 0
+wrong_letters = set()
+while True:
+    if play == "exit" or play != "play":
+        break
+    elif play == "play":
+        played = 1
+    if played :
+        random.seed()
+        secret_word = random.choice(['python', 'java', 'kotlin', 'javascript'])
+        guessed_letters = set()
+        number_errors_made = 0
+        wrong_letters = set()
+    while number_errors_made < 8:
+        print()
+        print(hint(secret_word))
+        guess = input('Input a letter: ')
+
+
+        if 0 == len(guess) or len(guess) > 1:
+            print("You should input a single letter")
+        elif guess == guess.upper():
+            print("It is not an ASCII lowercase letter")
+        elif guess in wrong_letters:
+            print('You already typed this letter')
+        elif guess not in secret_word:
+            print('No such letter in the word')
+            wrong_letters.add(guess)
+            number_errors_made += 1
+        elif guess in guessed_letters:
+            print('You already typed this letter')
+        else:
+            guessed_letters.add(guess)
+
+        if guessed_letters == set(secret_word):
+            print('You guessed the word ' + secret_word + "!")
+            print('You survived!')
+            print('Type "play" to play the game, "exit" to quit:')
+            play = input()
+            break
+
+        if number_errors_made == 8:
+            print('You are hanged!')
+            print('Type "play" to play the game, "exit" to quit:')
+            play = input()
+            break
+
+
